@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+import sys
+import math
+
+
+def factorize_number(num):
+    factors = []
+    for i in range(2, int(math.sqrt(num)) + 1):
+        if num % i == 0:
+            factors.append((i, num // i))
+    return factors
+
+
+def factorize_file(filename):
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                num = int(line.strip())
+                factors = factorize_number(num)
+                for factor_pair in factors:
+                    p, q = factor_pair
+                    print(f"{num}={p}*{q}")
+    except FileNotFoundError:
+        print("Error opening file")
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: python factors.py <file>")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    factorize_file(filename)
+
